@@ -21,8 +21,6 @@ import com.airhacks.afterburner.views.ViewLoader;
 import jakarta.inject.Inject;
 import org.controlsfx.control.table.TableFilter;
 
-import javax.swing.*;
-
 public class IntegrityCheckDialog extends BaseDialog<Void> {
 
     @FXML private TableView<IntegrityMessage> messagesTable;
@@ -46,7 +44,6 @@ public class IntegrityCheckDialog extends BaseDialog<Void> {
     public IntegrityCheckDialog(List<IntegrityMessage> messages, LibraryTab libraryTab) {
         this.messages = messages;
         this.libraryTab = libraryTab;
-
         this.setTitle(Localization.lang("Check integrity"));
         this.initModality(Modality.NONE);
 
@@ -71,8 +68,7 @@ public class IntegrityCheckDialog extends BaseDialog<Void> {
     @FXML
     private void initialize() {
         viewModel = new IntegrityCheckDialogViewModel(messages);
-
-
+        
         messagesTable.getSelectionModel().getSelectedItems().addListener(this::onSelectionChanged);
         messagesTable.setItems(viewModel.getMessages());
         keyColumn.setCellValueFactory(row -> new ReadOnlyStringWrapper(row.getValue().entry().getCitationKey().orElse("")));
