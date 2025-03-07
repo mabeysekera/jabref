@@ -6,10 +6,7 @@ import java.util.function.Function;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 
@@ -24,12 +21,17 @@ import com.airhacks.afterburner.views.ViewLoader;
 import jakarta.inject.Inject;
 import org.controlsfx.control.table.TableFilter;
 
+import javax.swing.*;
+
 public class IntegrityCheckDialog extends BaseDialog<Void> {
 
     @FXML private TableView<IntegrityMessage> messagesTable;
+    @FXML private TableView<IntegrityMessage> BibTeXTable;
     @FXML private TableColumn<IntegrityMessage, String> keyColumn;
     @FXML private TableColumn<IntegrityMessage, String> fieldColumn;
     @FXML private TableColumn<IntegrityMessage, String> messageColumn;
+    @FXML private TableColumn<IntegrityMessage, String> fileNameColumn;
+    @FXML private TableColumn<IntegrityMessage, String> BrowseColumn;
     @FXML private MenuButton keyFilterButton;
     @FXML private MenuButton fieldFilterButton;
     @FXML private MenuButton messageFilterButton;
@@ -44,6 +46,7 @@ public class IntegrityCheckDialog extends BaseDialog<Void> {
     public IntegrityCheckDialog(List<IntegrityMessage> messages, LibraryTab libraryTab) {
         this.messages = messages;
         this.libraryTab = libraryTab;
+
         this.setTitle(Localization.lang("Check integrity"));
         this.initModality(Modality.NONE);
 
@@ -69,6 +72,7 @@ public class IntegrityCheckDialog extends BaseDialog<Void> {
     private void initialize() {
         viewModel = new IntegrityCheckDialogViewModel(messages);
 
+
         messagesTable.getSelectionModel().getSelectedItems().addListener(this::onSelectionChanged);
         messagesTable.setItems(viewModel.getMessages());
         keyColumn.setCellValueFactory(row -> new ReadOnlyStringWrapper(row.getValue().entry().getCitationKey().orElse("")));
@@ -86,6 +90,16 @@ public class IntegrityCheckDialog extends BaseDialog<Void> {
         addMessageColumnFilter(keyColumn, keyFilterButton);
         addMessageColumnFilter(fieldColumn, fieldFilterButton);
         addMessageColumnFilter(messageColumn, messageFilterButton);
+
+        //Bibtex table
+        BibTeXTable.getSelectionModel().getSelectedItems().addListener(this::onSelectionChanged);
+        BibTeXTable.setItems(viewModel.getMessages());
+        fileNameColumn.setCellValueFactory(row -> new ReadOnlyStringWrapper(row.getValue().entry().getCitationKey().orElse("")+ ".blg"));
+        BrowseColumn.setCellFactory(row-> {
+            TableCell cell=new TableCell<>();
+            cell.setGraphic(new Button("Browse"));
+            return cell;
+        });
     }
 
     private void addMessageColumnFilter(TableColumn<IntegrityMessage, String> messageColumn, MenuButton messageFilterButton) {

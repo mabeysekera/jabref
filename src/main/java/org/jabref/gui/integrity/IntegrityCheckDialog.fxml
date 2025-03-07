@@ -36,16 +36,15 @@
             </Tab>
             <Tab text="BibTeX">
                 <VBox>
-                    <TableView  prefHeight="550" prefWidth="700.0" VBox.vgrow="ALWAYS" >
+                    <TableView fx:id="BibTeXTable" prefHeight="550" prefWidth="700.0" VBox.vgrow="ALWAYS" >
                         <columns>
-                            <TableColumn prefWidth="150.0" maxWidth="200"  text="%Entry"/>
-                            <TableColumn prefWidth="110.0" maxWidth="200"  text="%Type"/>
-                            <TableColumn prefWidth="400"  text="%Messages"/>
+                            <TableColumn fx:id="fileNameColumn" prefWidth="200.0" maxWidth="200"  text="%File name"/>
+                            <TableColumn fx:id="BrowseColumn" prefWidth="400" />
                         </columns>
                     </TableView>
                 </VBox>
             </Tab>
-</TabPane>
+    </TabPane>
     </content>
     <ButtonType fx:constant="CLOSE"/>
 </DialogPane>
