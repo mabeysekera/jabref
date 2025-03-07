@@ -34,7 +34,7 @@
                     </HBox>
                 </VBox>
             </Tab>
-            <Tab text="Bibtex">
+            <Tab text="BibTeX">
                 <VBox>
                     <TableView  prefHeight="550" prefWidth="700.0" VBox.vgrow="ALWAYS" >
                         <columns>
